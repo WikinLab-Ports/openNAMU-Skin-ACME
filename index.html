@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8">
-        {% if imp[3][0] != 0 %}
-            <title>{{imp[0]}} {{imp[3][0]}} - {{imp[1][0]}}</title>
+        {% if sub_title != 0 %}
+            <title>{{title}} {{sub_title}} - {{wiki_name}}</title>
         {% else %}
-            <title>{{imp[0]}} - {{imp[1][0]}}</title>
+            <title>{{title}} - {{wiki_name}}</title>
         {% endif %}
         <link   rel="stylesheet" 
                 href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -14,21 +14,21 @@
         <link rel="stylesheet" href="/views/acme/css/bootstrap.min.css?ver=1">
         <link rel="stylesheet" href="/views/acme/css/style.css?ver=1">
         <link rel="stylesheet" href="/views/acme/css/style-responsive.css?ver=1">
-        {{imp[3][3]|safe}}
+        {{main_head|safe}}
         <link rel="stylesheet" href="/views/acme/css/plus.css?ver=4">
         <script src="/views/acme/js/jquery.min.js?ver=1"></script>
         <script src="/views/acme/js/bootstrap.min.js?ver=1"></script>
         <script src="/views/acme/js/skin_set.js?ver=4"></script>
         <script>main_load(); window.addEventListener('DOMContentLoaded', function() { skin_set(); });</script>
-        {{imp[1][5]|safe}}
-        {{imp[2][3]|safe}}
-        {% if imp[3][0] != 0 %}
-            <meta name="title" content="{{imp[0]}}{{imp[3][0]}} - {{imp[1][0]}}">
+        {{global_head|safe}}
+        {{user_head|safe}}
+        {% if sub_title != 0 %}
+            <meta name="title" content="{{title}}{{sub_title}} - {{wiki_name}}">
         {% else %}
-            <meta name="title" content="{{imp[0]}} - {{imp[1][0]}}">
+            <meta name="title" content="{{title}} - {{wiki_name}}">
         {% endif %}
-        <meta name="keywords" content="{{imp[0]}}">
-        {% if imp[2][12] != 0 and imp[2][12] == 'w' %}
+        <meta name="keywords" content="{{title}}">
+        {% if (user_path == '/w' or user_path|slice:'0:3' == '/w/') %}
             <meta name="description" content="{{data|cut_100}}">
         {% endif %}
         <link rel="shortcut icon" href="/views/acme/img/on.ico">
@@ -44,7 +44,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/" id="r_logo">
-                        {{imp[1][4]|safe}}
+                        {{wiki_logo|safe}}
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
@@ -104,17 +104,17 @@
                         </li>       
                         <li>
                             <a href="/user">
-                                {% if imp[2][4] != '' %}
-                                    <img src="https://www.gravatar.com/avatar/{{imp[2][4]|md5_replace}}?s=30"> {{imp[2][5]}}
+                                {% if user_email != '' %}
+                                    <img src="https://www.gravatar.com/avatar/{{user_email|md5_replace}}?s=30"> {{user_name}}
                                 {% else %}
-                                    {% if imp[2][2] == 1 %}
+                                    {% if user_login == 1 %}
                                         <i class="fa fa-user" aria-hidden="true"></i>
-                                    {% elif imp[2][2] == 0 %}
+                                    {% elif user_login == 0 %}
                                         <i class="fa fa-user-times" aria-hidden="true"></i>
                                     {% else %}
                                         <i class="fa fa-user-secret" aria-hidden="true"></i>
                                     {% endif %}
-                                    {{imp[2][5]}}
+                                    {{user_name}}
                                 {% endif %}
                             </a>
                         </li>  
@@ -128,9 +128,9 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-4">
                             <h1 id="fix_title">
-                                {{imp[0]}}
-                                {% if imp[3][0] != 0 %}
-                                    <sub>{{imp[3][0]}}</sub>
+                                {{title}}
+                                {% if sub_title != 0 %}
+                                    <sub>{{sub_title}}</sub>
                                 {% endif %}
                             </h1>
                         </div>
@@ -144,7 +144,7 @@
                                             {% else %}
                                                 <a class="menu-item" href="/{{sub_d[0]}}">{{sub_d[1]}}</a>
                                             {% endif %}
-                                            {% if menu[loop.index] %}
+                                            {% if menu[forloop.Counter] %}
                                                 ㆍ
                                             {% endif %}
                                         {% endfor %}
@@ -178,7 +178,7 @@
             <div class="container">
                 <div class="row">
                     <div class="copyright">
-                        {{imp[1][1]|safe}}
+                        {{license|safe}}
                         <span id="left_end" class="pull-right">
                             <a href="https://github.com/2DU/openNAMU">
                                 <img src="/views/acme/img/on2.png" alt="opennamu" style="width: 100px;">
